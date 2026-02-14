@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MicroJob Pro</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#f0f4ff;--bg2:#e8eeff;--card:#fff;--border:#d1d9f0;
+--txt:#1a1f3a;--txt2:#5a6282;
+--blue:#4361ee;--blue2:#3a0ca3;
+--green:#06d6a0;--green2:#059669;
+--orange:#f77f00;--red:#e63946;--purple:#7b2d8b;
+--sh:0 2px 12px rgba(67,97,238,.10);
+--shlg:0 8px 32px rgba(67,97,238,.16);
+}
+body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+.hide{display:none!important}
+
+/* ======= AUTH ======= */
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:linear-gradient(135deg,#e8eeff,#f0f4ff,#ede9fe)}
+.auth-card{background:var(--card);border:1.5px solid var(--border);border-radius:22px;padding:2.5rem 2rem;width:100%;max-width:420px;box-shadow:var(--shlg)}
+.auth-logo{text-align:center;margin-bottom:1.75rem}
+.logo-ico{width:68px;height:68px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto .9rem;box-shadow:0 4px 16px rgba(67,97,238,.28)}
+.logo-ico i{color:#fff;font-size:1.9rem}
+.auth-logo h1{font-size:1.65rem;font-weight:800;margin-bottom:.2rem}
+.auth-logo p{color:var(--txt2);font-size:.9rem}
+.fg{margin-bottom:1.1rem}
+.fg label{display:block;margin-bottom:.4rem;font-weight:600;font-size:.87rem}
+.fg input,.fg select,.fg textarea{width:100%;padding:.75rem .95rem;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;color:var(--txt);font-size:.93rem;font-family:inherit;transition:.2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(67,97,238,.1)}
+.btn{padding:.75rem 1.4rem;border:none;border-radius:10px;font-size:.93rem;font-weight:700;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-family:inherit}
+.btn-blue{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;width:100%;box-shadow:0 4px 14px rgba(67,97,238,.28)}
+.btn-blue:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(67,97,238,.38)}
+.btn-red{background:linear-gradient(135deg,#e63946,#c1121f);color:#fff;width:100%;box-shadow:0 4px 14px rgba(230,57,70,.28)}
+.btn-red:hover{transform:translateY(-2px)}
+.btn-sm{padding:.45rem .9rem;font-size:.82rem;width:auto}
+.btn-green2{background:linear-gradient(135deg,#06d6a0,#059669);color:#fff}
+.btn-danger{background:linear-gradient(135deg,#e63946,#c1121f);color:#fff}
+.btn-warn{background:linear-gradient(135deg,#f77f00,#e65c00);color:#fff}
+.sw{text-align:center;margin-top:1.1rem;color:var(--txt2);font-size:.88rem}
+.sw a{color:var(--blue);font-weight:700;text-decoration:none;cursor:pointer}
+
+/* ======= NAVBAR ======= */
+.navbar{background:#fff;border-bottom:1.5px solid var(--border);padding:.65rem 0;position:sticky;top:0;z-index:999;box-shadow:0 2px 12px rgba(67,97,238,.07)}
+.nb{max-width:1100px;margin:0 auto;padding:0 1rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:.55rem;font-size:1.15rem;font-weight:800;white-space:nowrap}
+.bico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.bico i{color:#fff;font-size:.9rem}
+.navlinks{display:flex;gap:.2rem}
+.nva{color:var(--txt2);padding:.5rem .8rem;border-radius:9px;transition:.2s;display:flex;align-items:center;gap:5px;font-weight:600;font-size:.85rem;cursor:pointer;position:relative;border:none;background:none;font-family:inherit}
+.nva:hover{background:var(--bg2);color:var(--blue)}
+.nva.active{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff}
+.nbdot{position:absolute;top:3px;right:3px;background:var(--red);color:#fff;border-radius:50%;width:16px;height:16px;font-size:.6rem;display:flex;align-items:center;justify-content:center;font-weight:700}
+.nright{display:flex;align-items:center;gap:.65rem}
+.balchip{background:rgba(6,214,160,.12);border:1.5px solid rgba(6,214,160,.3);padding:.4rem .85rem;border-radius:9px;display:flex;align-items:center;gap:5px;font-weight:700;color:var(--green2);font-size:.88rem}
+.avbtn{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--blue2));border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;position:relative}
+.udrop{position:absolute;top:42px;right:0;background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:.35rem;min-width:180px;box-shadow:var(--shlg);z-index:999}
+.uditem{padding:.6rem .85rem;color:var(--txt);display:flex;align-items:center;gap:7px;border-radius:8px;cursor:pointer;font-size:.88rem;font-weight:500}
+.uditem:hover{background:var(--bg2);color:var(--blue)}
+.umwrap{position:relative}
+
+/* ======= PAGES ======= */
+.main{padding:1.5rem 0;min-height:calc(100vh - 62px)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 1rem}
+.pg{display:none}
+.pg.on{display:block;animation:fu .25s ease}
+@keyframes fu{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.ph{font-size:1.5rem;font-weight:800;margin-bottom:1.35rem}
+
+/* ======= STATS ======= */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-bottom:1.5rem}
+.sc{background:#fff;border:1.5px solid var(--border);border-radius:13px;padding:1.2rem;display:flex;align-items:center;gap:.85rem;box-shadow:var(--sh);transition:.2s}
+.sc:hover{transform:translateY(-3px);box-shadow:var(--shlg)}
+.si{width:48px;height:48px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0}
+.si-b{background:rgba(67,97,238,.12);color:var(--blue)}
+.si-g{background:rgba(6,214,160,.15);color:var(--green2)}
+.si-o{background:rgba(247,127,0,.12);color:var(--orange)}
+.si-p{background:rgba(123,45,139,.12);color:var(--purple)}
+.si-r{background:rgba(230,57,70,.12);color:var(--red)}
+.sval{font-size:1.45rem;font-weight:800;color:var(--txt);line-height:1}
+.slbl{color:var(--txt2);font-size:.8rem;font-weight:500;margin-top:3px}
+
+/* ======= TASKS ======= */
+.frow{display:flex;gap:.45rem;margin-bottom:1.35rem;flex-wrap:wrap}
+.fb{padding:.5rem 1rem;background:#fff;border:1.5px solid var(--border);color:var(--txt2);border-radius:9px;cursor:pointer;font-weight:600;font-size:.83rem;transition:.2s;font-family:inherit}
+.fb:hover{background:var(--bg2);color:var(--blue)}
+.fb.active{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-color:transparent}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.1rem}
+.tcard{background:#fff;border:1.5px solid var(--border);border-radius:13px;padding:1.25rem;box-shadow:var(--sh);transition:.2s}
+.tcard:hover{transform:translateY(-4px);box-shadow:var(--shlg)}
+.ttop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.8rem}
+.ctag{padding:.22rem .65rem;border-radius:6px;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.ct-s{background:rgba(67,97,238,.11);color:var(--blue)}
+.ct-v{background:rgba(6,214,160,.14);color:var(--green2)}
+.ct-o{background:rgba(247,127,0,.11);color:var(--orange)}
+.trwd{font-size:1.35rem;font-weight:800;color:var(--green2)}
+.ttl{font-size:.97rem;font-weight:700;margin-bottom:.35rem}
+.tdsc{color:var(--txt2);font-size:.85rem;margin-bottom:.85rem;line-height:1.5}
+.tfoot{display:flex;justify-content:space-between;align-items:center;padding-top:.8rem;border-top:1.5px solid var(--border)}
+.ttime{color:var(--txt2);font-size:.8rem;display:flex;align-items:center;gap:4px}
+.bstart{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:.45rem 1rem;border:none;border-radius:8px;font-weight:700;font-size:.83rem;cursor:pointer;transition:.2s;font-family:inherit}
+.bstart:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(67,97,238,.32)}
+
+/* ======= CHAT ======= */
+.chwrap{max-width:740px;margin:0 auto}
+.chbox{background:#fff;border:1.5px solid var(--border);border-radius:13px;overflow:hidden;box-shadow:var(--sh)}
+.chhd{background:linear-gradient(135deg,var(--blue),var(--blue2));padding:.95rem 1.3rem;display:flex;align-items:center;gap:.85rem}
+.chav{width:42px;height:42px;background:rgba(255,255,255,.22);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem}
+.chhdi h3{color:#fff;font-weight:700;font-size:.97rem}
+.chhdi p{color:rgba(255,255,255,.72);font-size:.8rem}
+.chmsgs{padding:1.1rem;max-height:420px;overflow-y:auto;display:flex;flex-direction:column;gap:.8rem;background:var(--bg)}
+.msg{display:flex;gap:.55rem;max-width:74%}
+.msg.sent{align-self:flex-end;flex-direction:row-reverse}
+.mav{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.75rem;flex-shrink:0}
+.msg.recv .mav{background:linear-gradient(135deg,#e63946,#c1121f)}
+.msg.sent .mav{background:linear-gradient(135deg,var(--blue),var(--blue2))}
+.mbody{background:#fff;padding:.65rem .9rem;border-radius:11px;border:1.5px solid var(--border);font-size:.87rem;word-wrap:break-word}
+.msg.sent .mbody{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-color:transparent}
+.mimg{max-width:100%;border-radius:7px;margin-top:.35rem;cursor:pointer}
+.mtime{font-size:.7rem;color:var(--txt2);margin-top:.22rem}
+.msg.sent .mtime{color:rgba(255,255,255,.65)}
+.chinp{padding:.9rem 1.1rem;border-top:1.5px solid var(--border);display:flex;gap:.65rem;align-items:flex-end;background:#fff}
+.inpwr{flex:1;display:flex;flex-direction:column;gap:.35rem}
+.chinp textarea{width:100%;padding:.65rem .85rem;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--txt);font-family:inherit;resize:none;min-height:40px;font-size:.88rem}
+.chinp textarea:focus{outline:none;border-color:var(--blue)}
+.chacts{display:flex;gap:.45rem}
+.imglbl{padding:.65rem .8rem;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;cursor:pointer;display:flex;align-items:center;color:var(--txt2);transition:.2s}
+.imglbl:hover{border-color:var(--blue);color:var(--blue)}
+.sndbtn{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;border-radius:9px;padding:.65rem .9rem;cursor:pointer;font-size:.95rem;transition:.2s}
+
+/* ======= PAYMENT ======= */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.2rem;margin-bottom:1.5rem}
+.balcard{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-radius:13px;padding:1.75rem;box-shadow:0 8px 24px rgba(67,97,238,.32)}
+.balcard h3{font-size:.9rem;font-weight:600;opacity:.82;margin-bottom:.45rem}
+.balcard .bnum{font-size:2.6rem;font-weight:800;line-height:1;margin-bottom:.45rem}
+.balcard p{opacity:.72;font-size:.83rem}
+.paycard{background:#fff;border:1.5px solid var(--border);border-radius:13px;padding:1.6rem;box-shadow:var(--sh)}
+.paycard h3{font-size:1.05rem;font-weight:700;margin-bottom:1.1rem}
+
+/* ======= ADMIN NAV ======= */
+.anav{background:#fff;border-bottom:1.5px solid var(--border);padding:.65rem 0;position:sticky;top:0;z-index:999;box-shadow:0 2px 12px rgba(230,57,70,.07)}
+.anb{max-width:1280px;margin:0 auto;padding:0 1rem;display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap}
+.abrand{display:flex;align-items:center;gap:.55rem;font-size:1.15rem;font-weight:800;color:#e63946}
+.abico{width:33px;height:33px;background:linear-gradient(135deg,#e63946,#c1121f);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.abico i{color:#fff;font-size:.88rem}
+.antabs{display:flex;gap:.2rem;flex-wrap:wrap}
+.ant{padding:.45rem .85rem;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:5px;font-weight:600;font-size:.82rem;color:var(--txt2);transition:.2s;position:relative;border:none;background:none;font-family:inherit}
+.ant:hover{background:var(--bg2);color:var(--blue)}
+.ant.active{background:linear-gradient(135deg,#e63946,#c1121f);color:#fff}
+.abdg{position:absolute;top:2px;right:2px;background:var(--orange);color:#fff;border-radius:50%;width:15px;height:15px;font-size:.58rem;display:flex;align-items:center;justify-content:center;font-weight:700}
+.achip{background:linear-gradient(135deg,#e63946,#c1121f);color:#fff;padding:.42rem .95rem;border-radius:9px;font-weight:700;font-size:.83rem;cursor:pointer;position:relative}
+.adrop{position:absolute;top:41px;right:0;background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:.35rem;min-width:150px;box-shadow:var(--shlg);z-index:999}
+.adrop.on{display:block}
+.aditem{padding:.58rem .85rem;color:var(--txt);display:flex;align-items:center;gap:7px;border-radius:8px;cursor:pointer;font-size:.87rem;font-weight:500}
+.aditem:hover{background:var(--bg2);color:#e63946}
+.awrap{position:relative}
+
+/* ======= ADMIN TABLES ======= */
+.amain{padding:1.5rem 0;min-height:calc(100vh - 62px)}
+.awrp{max-width:1280px;margin:0 auto;padding:0 1rem}
+.acard{background:#fff;border:1.5px solid var(--border);border-radius:13px;padding:1.35rem;margin-bottom:1.35rem;box-shadow:var(--sh);overflow-x:auto}
+.achdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{padding:.8rem .95rem;text-align:left;border-bottom:1.5px solid var(--border);font-size:.86rem}
+th{background:var(--bg2);color:var(--txt2);font-weight:700;font-size:.78rem;letter-spacing:.3px}
+tr:hover td{background:var(--bg)}
+.bdg{padding:.2rem .62rem;border-radius:6px;font-size:.73rem;font-weight:700}
+.b-p{background:rgba(247,127,0,.14);color:var(--orange)}
+.b-a{background:rgba(6,214,160,.13);color:var(--green2)}
+.b-r{background:rgba(230,57,70,.11);color:var(--red)}
+.b-ac{background:rgba(6,214,160,.11);color:var(--green2)}
+.b-bn{background:rgba(230,57,70,.11);color:var(--red)}
+.frow2{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.9rem}
+
+/* ======= MODAL ======= */
+.overlay{display:none;position:fixed;inset:0;background:rgba(26,31,58,.42);z-index:9000;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.overlay.on{display:flex}
+.modal{background:#fff;border-radius:18px;width:92%;max-width:580px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(26,31,58,.25)}
+.mhd{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.4rem;border-bottom:1.5px solid var(--border)}
+.mhd h3{font-size:1.02rem;font-weight:700}
+.mx{background:none;border:none;color:var(--txt2);font-size:1.3rem;cursor:pointer;line-height:1}
+.mx:hover{color:var(--red)}
+.mbd{padding:1.4rem}
+.infog{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem;padding:.95rem;background:var(--bg);border-radius:10px;margin-bottom:1.2rem}
+.infoi label{color:var(--txt2);font-size:.76rem;font-weight:600;display:block;margin-bottom:.18rem}
+.infoi span{font-weight:700;font-size:.97rem}
+
+/* ======= CHAT ADMIN ======= */
+.acmsgs{max-height:340px;overflow-y:auto;padding:.95rem;background:var(--bg);border-radius:10px;margin-bottom:.95rem;display:flex;flex-direction:column;gap:.7rem}
+.amsg{display:flex;gap:.55rem;max-width:82%}
+.amsg.am{align-self:flex-end;flex-direction:row-reverse}
+.amav{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.72rem;flex-shrink:0}
+.amsg.um .amav{background:linear-gradient(135deg,var(--blue),var(--blue2))}
+.amsg.am .amav{background:linear-gradient(135deg,#e63946,#c1121f)}
+.ambody{background:#fff;padding:.62rem .88rem;border-radius:10px;border:1.5px solid var(--border);font-size:.86rem;word-wrap:break-word}
+.amsg.am .ambody{background:linear-gradient(135deg,#e63946,#c1121f);color:#fff;border-color:transparent}
+.amtime{font-size:.68rem;color:var(--txt2);margin-top:.2rem}
+.amsg.am .amtime{color:rgba(255,255,255,.62)}
+
+/* ======= TOAST ======= */
+.toast{position:fixed;bottom:1.4rem;right:1.4rem;background:#fff;border:1.5px solid var(--border);border-radius:11px;padding:.82rem 1.3rem;box-shadow:var(--shlg);z-index:99999;transform:translateY(80px);opacity:0;transition:.3s;max-width:340px;font-weight:600;font-size:.88rem}
+.toast.on{transform:translateY(0);opacity:1}
+.toast.ok{border-left:4px solid var(--green)}
+.toast.err{border-left:4px solid var(--red)}
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--txt2)}
+.empty i{font-size:2.8rem;opacity:.3;margin-bottom:.8rem;display:block}
+
+@media(max-width:640px){
+.navlinks{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1.5px solid var(--border);padding:.4rem .6rem;justify-content:space-around;z-index:998}
+.nva span{display:none}
+.main,.amain{padding-bottom:5rem}
+.sgrid{grid-template-columns:1fr 1fr}
+.msg,.amsg{max-width:86%}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ USER: LOGIN ============ -->
+<div id="U-login" class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-ico" style="background:linear-gradient(135deg,#4361ee,#3a0ca3)"><i class="fas fa-briefcase"></i></div>
+      <h1>MicroJob Pro</h1>
+      <p>Login to your account</p>
+    </div>
+    <form id="frm-ul">
+      <div class="fg"><label>Email</label><input type="email" id="ul-em" placeholder="your@email.com" required></div>
+      <div class="fg"><label>Password</label><input type="password" id="ul-pw" placeholder="••••••••" required></div>
+      <button type="submit" class="btn btn-blue"><i class="fas fa-sign-in-alt"></i> Login</button>
+    </form>
+    <div class="sw">Don&apos;t have an account? <a onclick="showAuth('U-signup')">Sign Up</a></div>
+    <div style="text-align:center;margin-top:.75rem"><a onclick="showAuth('A-login')" style="color:var(--txt2);font-size:.82rem;cursor:pointer">Admin? Click here</a></div>
+  </div>
+</div>
+
+<!-- ============ USER: SIGNUP ============ -->
+<div id="U-signup" class="auth-wrap hide">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-ico" style="background:linear-gradient(135deg,#4361ee,#3a0ca3)"><i class="fas fa-briefcase"></i></div>
+      <h1>MicroJob Pro</h1>
+      <p>Create your account</p>
+    </div>
+    <form id="frm-us">
+      <div class="fg"><label>Full Name</label><input type="text" id="us-nm" placeholder="John Doe" required></div>
+      <div class="fg"><label>Email</label><input type="email" id="us-em" placeholder="your@email.com" required></div>
+      <div class="fg"><label>Password</label><input type="password" id="us-pw" placeholder="••••••••" required minlength="6"></div>
+      <button type="submit" class="btn btn-blue"><i class="fas fa-user-plus"></i> Create Account</button>
+    </form>
+    <div class="sw">Already have an account? <a onclick="showAuth('U-login')">Login</a></div>
+  </div>
+</div>
+
+<!-- ============ ADMIN: LOGIN ============ -->
+<div id="A-login" class="auth-wrap hide">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-ico" style="background:linear-gradient(135deg,#e63946,#c1121f)"><i class="fas fa-shield-alt"></i></div>
+      <h1 style="color:#e63946">Admin Panel</h1>
+      <p>MicroJob Pro Management</p>
+    </div>
+    <form id="frm-al">
+      <div class="fg"><label>Username</label><input type="text" id="al-un" placeholder="Admin username" required autocomplete="off"></div>
+      <div class="fg"><label>Password</label><input type="password" id="al-pw" placeholder="••••••••" required></div>
+      <button type="submit" class="btn btn-red"><i class="fas fa-sign-in-alt"></i> Login to Admin</button>
+    </form>
+    <div style="text-align:center;margin-top:.75rem"><a onclick="showAuth('U-login')" style="color:var(--txt2);font-size:.82rem;cursor:pointer">← Back to User Panel</a></div>
+  </div>
+</div>
+
+<!-- ============ USER APP ============ -->
+<div id="U-app" class="hide">
+  <nav class="navbar">
+    <div class="nb">
+      <div class="brand">
+        <div class="bico" style="background:linear-gradient(135deg,#4361ee,#3a0ca3)"><i class="fas fa-briefcase"></i></div>
+        MicroJob Pro
+      </div>
+      <div class="navlinks">
+        <button class="nva active" data-upg="udash"><i class="fas fa-home"></i><span> Home</span></button>
+        <button class="nva" data-upg="utasks"><i class="fas fa-tasks"></i><span> Tasks</span></button>
+        <button class="nva" data-upg="umsgs"><i class="fas fa-envelope"></i><span> Messages</span><span class="nbdot hide" id="u-msgdot">0</span></button>
+        <button class="nva" data-upg="upay"><i class="fas fa-wallet"></i><span> Payment</span></button>
+      </div>
+      <div class="nright">
+        <div class="balchip"><i class="fas fa-coins"></i><span id="u-bal">$0.00</span></div>
+        <div class="umwrap">
+          <div class="avbtn" onclick="toggleUD()"><i class="fas fa-user"></i></div>
+          <div class="udrop hide" id="u-drop">
+            <div class="uditem" id="u-uname"><i class="fas fa-user-circle"></i> User</div>
+            <div class="uditem" onclick="uLogout()"><i class="fas fa-sign-out-alt"></i> Logout</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <section id="pg-udash" class="pg on">
+      <div class="wrap">
+        <div style="background:#fff;border:1.5px dashed var(--border);border-radius:13px;min-height:95px;margin-bottom:1.35rem;overflow:hidden;text-align:center">
+          <script>atOptions={key:"8346702ed2e5150cdab130ef912687a0",format:"iframe",height:90,width:728,params:{}}</script>
+          <script src="https://www.highperformanceformat.com/8346702ed2e5150cdab130ef912687a0/invoke.js"></script>
+        </div>
+        <h1 class="ph">Dashboard</h1>
+        <div class="sgrid">
+          <div class="sc"><div class="si si-b"><i class="fas fa-wallet"></i></div><div><div class="sval" id="u-total">$0.00</div><div class="slbl">Total Earnings</div></div></div>
+          <div class="sc"><div class="si si-g"><i class="fas fa-check-circle"></i></div><div><div class="sval" id="u-done">0</div><div class="slbl">Completed Tasks</div></div></div>
+          <div class="sc"><div class="si si-o"><i class="fas fa-clock"></i></div><div><div class="sval" id="u-pend">0</div><div class="slbl">Pending Tasks</div></div></div>
+          <div class="sc"><div class="si si-p"><i class="fas fa-chart-line"></i></div><div><div class="sval" id="u-today">$0.00</div><div class="slbl">Today&apos;s Earnings</div></div></div>
+        </div>
+        <div style="background:#fff;border:1.5px dashed var(--border);border-radius:13px;min-height:260px;max-width:320px;margin:0 auto;overflow:hidden;text-align:center">
+          <script>atOptions={key:"b9b6cb0bd3bcc00434c4747e80d4d642",format:"iframe",height:250,width:300,params:{}}</script>
+          <script src="https://www.highperformanceformat.com/b9b6cb0bd3bcc00434c4747e80d4d642/invoke.js"></script>
+        </div>
+      </div>
+    </section>
+
+    <!-- TASKS -->
+    <section id="pg-utasks" class="pg">
+      <div class="wrap">
+        <h1 class="ph">Mini Tasks</h1>
+        <div class="frow">
+          <button class="fb active" data-f="all">All Tasks</button>
+          <button class="fb" data-f="social">Social Media</button>
+          <button class="fb" data-f="survey">Surveys</button>
+          <button class="fb" data-f="other">Other</button>
+        </div>
+        <div class="tgrid" id="u-tgrid"></div>
+      </div>
+    </section>
+
+    <!-- MESSAGES -->
+    <section id="pg-umsgs" class="pg">
+      <div class="wrap">
+        <h1 class="ph">Admin Messages</h1>
+        <div class="chwrap">
+          <div class="chbox">
+            <div class="chhd">
+              <div class="chav"><i class="fas fa-shield-alt"></i></div>
+              <div class="chhdi"><h3>Admin Support</h3><p>Always here to help</p></div>
+            </div>
+            <div class="chmsgs" id="u-chmsgs"><div class="empty"><i class="fas fa-comments"></i><p>No messages yet</p></div></div>
+            <div class="chinp">
+              <div class="inpwr">
+                <textarea id="u-msgtxt" placeholder="Type your message..." rows="1"></textarea>
+                <div id="u-imgprev"></div>
+              </div>
+              <div class="chacts">
+                <label for="u-imgpick" class="imglbl"><i class="fas fa-image"></i></label>
+                <input type="file" id="u-imgpick" style="display:none" accept="image/*">
+                <button class="sndbtn" onclick="uSendMsg()"><i class="fas fa-paper-plane"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAYMENT -->
+    <section id="pg-upay" class="pg">
+      <div class="wrap">
+        <h1 class="ph">Payment &amp; Withdrawal</h1>
+        <div class="pgrid">
+          <div class="balcard">
+            <h3>Available Balance</h3>
+            <div class="bnum" id="u-avail">$0.00</div>
+            <p><i class="fas fa-info-circle"></i> Minimum withdrawal: $5.00</p>
+          </div>
+          <div class="paycard">
+            <h3>Withdraw Funds</h3>
+            <form id="frm-wd">
+              <div class="fg"><label>Payment Method</label>
+                <select id="wd-mth" required>
+                  <option value="">Select Method</option>
+                  <option value="litecoin">Litecoin (LTC)</option>
+                  <option value="webmoney">WebMoney</option>
+                  <option value="paypal">PayPal</option>
+                </select>
+              </div>
+              <div class="fg"><label>Wallet Address / Email</label><input type="text" id="wd-acc" placeholder="Enter address or email" required></div>
+              <div class="fg"><label>Amount (USD)</label><input type="number" id="wd-amt" placeholder="Minimum $5.00" min="5" step="0.01" required></div>
+              <button type="submit" class="btn btn-blue"><i class="fas fa-paper-plane"></i> Request Withdrawal</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ============ ADMIN APP ============ -->
+<div id="A-app" class="hide">
+  <nav class="anav">
+    <div class="anb">
+      <div class="abrand"><div class="abico"><i class="fas fa-shield-alt"></i></div> Admin Panel</div>
+      <div class="antabs">
+        <button class="ant active" data-apg="aover"><i class="fas fa-chart-line"></i> Overview</button>
+        <button class="ant" data-apg="atasks"><i class="fas fa-tasks"></i> Tasks</button>
+        <button class="ant" data-apg="ausers"><i class="fas fa-users"></i> Users</button>
+        <button class="ant" data-apg="asubs"><i class="fas fa-clipboard-check"></i> Submissions<span class="abdg hide" id="a-sbdg">0</span></button>
+        <button class="ant" data-apg="amsgs"><i class="fas fa-envelope"></i> Messages<span class="abdg hide" id="a-msgdg">0</span></button>
+        <button class="ant" data-apg="apays"><i class="fas fa-dollar-sign"></i> Payments<span class="abdg hide" id="a-paydg">0</span></button>
+      </div>
+      <div class="awrap">
+        <div class="achip" onclick="toggleAD()"><i class="fas fa-user-shield"></i> Siam</div>
+        <div class="adrop hide" id="a-drop">
+          <div class="aditem" onclick="aLogout()"><i class="fas fa-sign-out-alt"></i> Logout</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main class="amain">
+
+    <!-- OVERVIEW -->
+    <section id="pg-aover" class="pg on">
+      <div class="awrp">
+        <h1 class="ph">Dashboard Overview</h1>
+        <div class="sgrid">
+          <div class="sc"><div class="si si-b"><i class="fas fa-users"></i></div><div><div class="sval" id="a-users">0</div><div class="slbl">Total Users</div></div></div>
+          <div class="sc"><div class="si si-g"><i class="fas fa-tasks"></i></div><div><div class="sval" id="a-tasks">0</div><div class="slbl">Active Tasks</div></div></div>
+          <div class="sc"><div class="si si-o"><i class="fas fa-clock"></i></div><div><div class="sval" id="a-pend">0</div><div class="slbl">Pending Reviews</div></div></div>
+          <div class="sc"><div class="si si-p"><i class="fas fa-dollar-sign"></i></div><div><div class="sval" id="a-paid">$0</div><div class="slbl">Total Paid</div></div></div>
+          <div class="sc"><div class="si si-r"><i class="fas fa-envelope"></i></div><div><div class="sval" id="a-unrd">0</div><div class="slbl">Unread Messages</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TASKS -->
+    <section id="pg-atasks" class="pg">
+      <div class="awrp">
+        <div class="achdr"><h1 class="ph" style="margin:0">Tasks</h1><button class="btn btn-blue btn-sm" onclick="openOv('ov-addtask')"><i class="fas fa-plus"></i> Add Task</button></div>
+        <div class="acard"><table id="a-ttbl"><thead><tr><th>#</th><th>Title</th><th>Category</th><th>Reward</th><th>Time</th><th>Action</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- USERS -->
+    <section id="pg-ausers" class="pg">
+      <div class="awrp">
+        <h1 class="ph">Users</h1>
+        <div class="acard"><table><thead><tr><th>Name</th><th>Email</th><th>Balance</th><th>Done</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="a-utbl"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- SUBMISSIONS -->
+    <section id="pg-asubs" class="pg">
+      <div class="awrp">
+        <h1 class="ph">Submissions</h1>
+        <div class="acard"><table><thead><tr><th>User</th><th>Task</th><th>Reward</th><th>Date</th><th>Status</th><th>Action</th></tr></thead><tbody id="a-stbl"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- MESSAGES -->
+    <section id="pg-amsgs" class="pg">
+      <div class="awrp">
+        <h1 class="ph">Messages</h1>
+        <div class="acard"><table><thead><tr><th>User</th><th>Last Message</th><th>Time</th><th>Unread</th><th>Action</th></tr></thead><tbody id="a-mtbl"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- PAYMENTS -->
+    <section id="pg-apays" class="pg">
+      <div class="awrp">
+        <h1 class="ph">Payments</h1>
+        <div class="acard"><table><thead><tr><th>User</th><th>Method</th><th>Address</th><th>Amount</th><th>Date</th><th>Status</th><th>Action</th></tr></thead><tbody id="a-ptbl"></tbody></table></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- MODALS -->
+<div class="overlay hide" id="ov-addtask">
+  <div class="modal">
+    <div class="mhd"><h3>Add New Task</h3><button class="mx" onclick="closeOv('ov-addtask')"><i class="fas fa-times"></i></button></div>
+    <div class="mbd">
+      <form id="frm-at">
+        <div class="fg"><label>Title</label><input type="text" id="at-ttl" placeholder="e.g., Like Facebook Page" required></div>
+        <div class="fg"><label>Description</label><textarea id="at-dsc" rows="3" placeholder="Task details..." required></textarea></div>
+        <div class="frow2">
+          <div class="fg"><label>Category</label><select id="at-cat" required><option value="social">Social Media</option><option value="survey">Survey</option><option value="other">Other</option></select></div>
+          <div class="fg"><label>Reward ($)</label><input type="number" id="at-rwd" step="0.01" min="0.01" placeholder="0.50" required></div>
+          <div class="fg"><label>Time Estimate</label><input type="text" id="at-tm" placeholder="e.g., 2 min" required></div>
+        </div>
+        <button type="submit" class="btn btn-blue" style="width:100%"><i class="fas fa-plus"></i> Add Task</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="overlay hide" id="ov-sub">
+  <div class="modal">
+    <div class="mhd"><h3>Review Submission</h3><button class="mx" onclick="closeOv('ov-sub')"><i class="fas fa-times"></i></button></div>
+    <div class="mbd" id="sub-detail"></div>
+  </div>
+</div>
+
+<div class="overlay hide" id="ov-chat">
+  <div class="modal">
+    <div class="mhd"><h3 id="chat-ttl">Chat</h3><button class="mx" onclick="closeOv('ov-chat')"><i class="fas fa-times"></i></button></div>
+    <div class="mbd">
+      <div class="infog" id="chat-uinfo"></div>
+      <div class="acmsgs" id="a-chmsgs"></div>
+      <div style="display:flex;gap:.65rem">
+        <textarea id="a-msgtxt" placeholder="Type reply..." rows="2" style="flex:1;padding:.65rem;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--txt);font-family:inherit;font-size:.88rem"></textarea>
+        <button class="btn btn-red btn-sm" onclick="aSendMsg()"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay hide" id="ov-user">
+  <div class="modal">
+    <div class="mhd"><h3 id="um-ttl">User Details</h3><button class="mx" onclick="closeOv('ov-user')"><i class="fas fa-times"></i></button></div>
+    <div class="mbd" id="um-body"></div>
+  </div>
+</div>
+
+<!-- TASK SUBMIT MODAL -->
+<div class="overlay hide" id="ov-tsub">
+  <div class="modal">
+    <div class="mhd"><h3>Submit Task</h3><button class="mx" onclick="closeOv('ov-tsub')"><i class="fas fa-times"></i></button></div>
+    <div class="mbd">
+      <div id="tsub-detail"></div>
+      <form id="frm-tsub">
+        <div class="fg"><label>Upload Proof (Screenshot)</label><input type="file" id="tsub-proof" accept="image/*" required><div id="tsub-prev" style="margin-top:.6rem"></div></div>
+        <div class="fg"><label>Notes (Optional)</label><textarea id="tsub-notes" rows="2" placeholder="Any notes..."></textarea></div>
+        <button type="submit" class="btn btn-blue"><i class="fas fa-check"></i> Submit Task</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+var AU="Siam",AP="Siam123";
+var KU="mjp_users",KT="mjp_tasks",KS="mjp_submissions",KP="mjp_payments";
+var CU=null,selImg=null,curTid=null,curChatU=null;
+
+function gU(){return JSON.parse(localStorage.getItem(KU)||"[]")}
+function sU(a){localStorage.setItem(KU,JSON.stringify(a))}
+function gT(){return JSON.parse(localStorage.getItem(KT)||"[]")}
+function sT(a){localStorage.setItem(KT,JSON.stringify(a))}
+function gS(){return JSON.parse(localStorage.getItem(KS)||"[]")}
+function sS(a){localStorage.setItem(KS,JSON.stringify(a))}
+function gP(){return JSON.parse(localStorage.getItem(KP)||"[]")}
+function sP(a){localStorage.setItem(KP,JSON.stringify(a))}
+
+function freshU(){var a=gU();return a.find(function(u){return u.id===CU.id})||null}
+function saveU(u){var a=gU();var i=a.findIndex(function(x){return x.id===u.id});if(i>-1){a[i]=u;sU(a)}}
+
+function toast(msg,type){
+  var el=document.getElementById("toast");
+  el.textContent=msg;el.className="toast on "+(type||"ok");
+  clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove("on")},3200);
+}
+
+function H(id){document.getElementById(id).classList.add("hide")}
+function S(id){document.getElementById(id).classList.remove("hide")}
+function showAuth(id){
+  ["U-login","U-signup","A-login"].forEach(function(x){H(x)});
+  S(id);
+}
+function openOv(id){document.getElementById(id).classList.remove("hide");document.getElementById(id).classList.add("on")}
+function closeOv(id){document.getElementById(id).classList.remove("on");document.getElementById(id).classList.add("hide")}
+
+// ── INIT ──
+window.addEventListener("DOMContentLoaded",function(){
+  seedTasks();
+  var sid=localStorage.getItem("mjp_sid");
+  if(sid){
+    if(sid==="ADMIN"){initAdmin();return}
+    var u=gU().find(function(x){return x.id==sid});
+    if(u&&u.status!=="banned"){CU=u;initUser();return}
+    localStorage.removeItem("mjp_sid");
+  }
+  showAuth("U-login");
+});
+
+function seedTasks(){
+  if(gT().length>0)return;
+  sT([
+    {id:1,title:"Like Facebook Page",description:"Like our Facebook page and submit screenshot",category:"social",reward:0.50,timeEstimate:"2 min"},
+    {id:2,title:"Subscribe YouTube",description:"Subscribe to our YouTube channel and screenshot",category:"social",reward:0.75,timeEstimate:"3 min"},
+    {id:3,title:"Complete Survey",description:"Fill out a short 5-question survey",category:"survey",reward:1.00,timeEstimate:"5 min"},
+    {id:4,title:"Instagram Follow",description:"Follow our Instagram profile and screenshot",category:"social",reward:0.60,timeEstimate:"2 min"},
+    {id:5,title:"App Download & Rate",description:"Download app and give 5-star rating",category:"other",reward:2.00,timeEstimate:"10 min"}
+  ]);
+}
+
+// ── USER AUTH ──
+document.getElementById("frm-us").addEventListener("submit",function(e){
+  e.preventDefault();
+  var nm=document.getElementById("us-nm").value.trim();
+  var em=document.getElementById("us-em").value.trim().toLowerCase();
+  var pw=document.getElementById("us-pw").value;
+  var all=gU();
+  if(all.find(function(u){return u.email===em})){toast("Email already registered!","err");return}
+  var u={id:Date.now(),name:nm,email:em,password:pw,balance:0,totalEarnings:0,completedTasks:0,pendingTasks:0,todayEarnings:0,messages:[],paymentHistory:[],status:"active",joinedDate:new Date().toISOString()};
+  all.push(u);sU(all);
+  toast("Account created! Please login.","ok");
+  setTimeout(function(){showAuth("U-login")},1400);
+});
+
+document.getElementById("frm-ul").addEventListener("submit",function(e){
+  e.preventDefault();
+  var em=document.getElementById("ul-em").value.trim().toLowerCase();
+  var pw=document.getElementById("ul-pw").value;
+  var u=gU().find(function(x){return x.email===em&&x.password===pw});
+  if(!u){toast("Invalid email or password!","err");return}
+  if(u.status==="banned"){toast("Account banned. Contact admin.","err");return}
+  CU=u;localStorage.setItem("mjp_sid",u.id);
+  toast("Login successful!","ok");
+  setTimeout(initUser,800);
+});
+
+function uLogout(){localStorage.removeItem("mjp_sid");CU=null;H("U-app");showAuth("U-login")}
+
+function initUser(){
+  H("U-login");H("U-signup");H("A-login");H("A-app");S("U-app");
+  uRefresh();
+  setupUNav();setupUFilter();
+  setInterval(uRefresh,3000);
+}
+
+function uRefresh(){
+  var u=freshU();if(!u)return;CU=u;
+  document.getElementById("u-bal").textContent="$"+parseFloat(CU.balance).toFixed(2);
+  document.getElementById("u-total").textContent="$"+parseFloat(CU.totalEarnings).toFixed(2);
+  document.getElementById("u-done").textContent=CU.completedTasks;
+  document.getElementById("u-pend").textContent=CU.pendingTasks;
+  document.getElementById("u-today").textContent="$"+parseFloat(CU.todayEarnings).toFixed(2);
+  document.getElementById("u-avail").textContent="$"+parseFloat(CU.balance).toFixed(2);
+  document.getElementById("u-uname").innerHTML="<i class=\"fas fa-user-circle\"></i> "+CU.name;
+  uRenderTasks();uMsgBadge();
+}
+
+function toggleUD(){document.getElementById("u-drop").classList.toggle("hide")}
+document.addEventListener("click",function(e){if(!e.target.closest(".umwrap"))document.getElementById("u-drop").classList.add("hide")});
+
+function setupUNav(){
+  document.querySelectorAll(".nva").forEach(function(a){
+    a.addEventListener("click",function(){
+      document.querySelectorAll(".nva").forEach(function(x){x.classList.remove("active")});
+      document.querySelectorAll("#U-app .pg").forEach(function(x){x.classList.remove("on")});
+      this.classList.add("active");
+      var pg="pg-"+this.getAttribute("data-upg");
+      document.getElementById(pg).classList.add("on");
+      if(pg==="pg-umsgs")uRenderMsgs();
+    });
+  });
+}
+
+var uCurFilter="all";
+function setupUFilter(){
+  document.querySelectorAll(".fb").forEach(function(b){
+    b.addEventListener("click",function(){
+      document.querySelectorAll(".fb").forEach(function(x){x.classList.remove("active")});
+      this.classList.add("active");
+      uCurFilter=this.getAttribute("data-f");
+      uRenderTasks();
+    });
+  });
+}
+
+function uRenderTasks(){
+  var tasks=gT();
+  if(uCurFilter!=="all")tasks=tasks.filter(function(t){return t.category===uCurFilter});
+  var g=document.getElementById("u-tgrid");
+  if(!tasks.length){g.innerHTML="<div class=\"empty\" style=\"grid-column:1/-1\"><i class=\"fas fa-tasks\"></i><p>No tasks available yet. Check back soon!</p></div>";return}
+  g.innerHTML="";
+  tasks.forEach(function(t){
+    var cc=t.category==="social"?"ct-s":t.category==="survey"?"ct-v":"ct-o";
+    var el=document.createElement("div");el.className="tcard";
+    el.innerHTML="<div class=\"ttop\"><span class=\"ctag "+cc+"\">"+t.category+"</span><span class=\"trwd\">$"+parseFloat(t.reward).toFixed(2)+"</span></div><div class=\"ttl\">"+t.title+"</div><div class=\"tdsc\">"+t.description+"</div><div class=\"tfoot\"><span class=\"ttime\"><i class=\"fas fa-clock\"></i> "+t.timeEstimate+"</span><button class=\"bstart\" onclick=\"openTaskSub("+t.id+")\">Start Task</button></div>";
+    g.appendChild(el);
+  });
+}
+
+function openTaskSub(id){
+  var t=gT().find(function(x){return x.id===id});if(!t)return;
+  curTid=id;
+  document.getElementById("tsub-detail").innerHTML="<div style=\"background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:1rem\"><div style=\"font-weight:700;margin-bottom:.3rem\">"+t.title+"</div><div style=\"color:var(--txt2);font-size:.87rem;margin-bottom:.4rem\">"+t.description+"</div><div style=\"font-size:1.2rem;font-weight:800;color:var(--green2)\">Reward: $"+parseFloat(t.reward).toFixed(2)+"</div></div>";
+  openOv("ov-tsub");
+}
+document.getElementById("tsub-proof").addEventListener("change",function(){
+  var f=this.files[0];
+  if(f){var r=new FileReader();r.onload=function(e){document.getElementById("tsub-prev").innerHTML="<img src=\""+e.target.result+"\" style=\"max-width:100%;border-radius:8px\">"};r.readAsDataURL(f)}
+});
+document.getElementById("frm-tsub").addEventListener("submit",function(e){
+  e.preventDefault();
+  var t=gT().find(function(x){return x.id===curTid});if(!t)return;
+  var f=document.getElementById("tsub-proof").files[0];
+  if(!f){toast("Please upload proof!","err");return}
+  var r=new FileReader();
+  r.onload=function(ev){
+    var sub={id:Date.now(),userId:CU.id,userName:CU.name,userEmail:CU.email,taskId:t.id,taskTitle:t.title,taskReward:parseFloat(t.reward),proof:ev.target.result,notes:document.getElementById("tsub-notes").value,status:"pending",submittedAt:new Date().toISOString()};
+    var ss=gS();ss.push(sub);sS(ss);
+    var u=freshU();u.pendingTasks++;saveU(u);CU=u;
+    uRefresh();closeOv("ov-tsub");document.getElementById("frm-tsub").reset();document.getElementById("tsub-prev").innerHTML="";
+    toast("Task submitted! Waiting for approval.","ok");
+  };
+  r.readAsDataURL(f);
+});
+
+function uMsgBadge(){
+  var n=(CU.messages||[]).filter(function(m){return !m.read&&m.sender==="admin"}).length;
+  var d=document.getElementById("u-msgdot");
+  if(n>0){d.textContent=n;d.classList.remove("hide")}else{d.classList.add("hide")}
+}
+function uRenderMsgs(){
+  var u=freshU();CU=u;
+  var box=document.getElementById("u-chmsgs");
+  var msgs=CU.messages||[];
+  if(!msgs.length){box.innerHTML="<div class=\"empty\"><i class=\"fas fa-comments\"></i><p>No messages yet</p></div>";return}
+  box.innerHTML="";
+  msgs.forEach(function(m){
+    var d=document.createElement("div");d.className="msg "+(m.sender==="user"?"sent":"recv");
+    var body="<div class=\"mbody\">"+(m.text||"");
+    if(m.image)body+="<img src=\""+m.image+"\" class=\"mimg\" onclick=\"window.open(this.src,'_blank')\">";
+    body+="<div class=\"mtime\">"+new Date(m.timestamp).toLocaleString()+"</div></div>";
+    d.innerHTML="<div class=\"mav\"><i class=\"fas fa-"+(m.sender==="user"?"user":"shield-alt")+"\"></i></div>"+body;
+    box.appendChild(d);
+  });
+  box.scrollTop=box.scrollHeight;
+  var changed=false;
+  CU.messages.forEach(function(m){if(m.sender==="admin"&&!m.read){m.read=true;changed=true}});
+  if(changed){saveU(CU);uMsgBadge()}
+}
+function uSendMsg(){
+  var txt=document.getElementById("u-msgtxt").value.trim();
+  if(!txt&&!selImg){toast("Enter a message or pick an image","err");return}
+  var u=freshU();
+  if(!u.messages)u.messages=[];
+  u.messages.push({id:Date.now(),sender:"user",text:txt,image:selImg,timestamp:new Date().toISOString(),read:false});
+  saveU(u);CU=u;
+  document.getElementById("u-msgtxt").value="";
+  selImg=null;document.getElementById("u-imgprev").innerHTML="";document.getElementById("u-imgpick").value="";
+  uRenderMsgs();toast("Message sent!","ok");
+}
+document.getElementById("u-imgpick").addEventListener("change",function(){
+  var f=this.files[0];
+  if(f){var r=new FileReader();r.onload=function(e){selImg=e.target.result;document.getElementById("u-imgprev").innerHTML="<div style=\"position:relative;display:inline-block;margin-top:.35rem\"><img src=\""+selImg+"\" style=\"max-width:130px;border-radius:8px\"><button onclick=\"clearSelImg()\" style=\"position:absolute;top:3px;right:3px;background:var(--red);border:none;color:#fff;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:.7rem\"><i class=\"fas fa-times\"></i></button></div>"};r.readAsDataURL(f)}
+});
+function clearSelImg(){selImg=null;document.getElementById("u-imgprev").innerHTML="";document.getElementById("u-imgpick").value=""}
+
+document.getElementById("frm-wd").addEventListener("submit",function(e){
+  e.preventDefault();
+  var mth=document.getElementById("wd-mth").value;
+  var acc=document.getElementById("wd-acc").value.trim();
+  var amt=parseFloat(document.getElementById("wd-amt").value);
+  var u=freshU();
+  if(amt<5){toast("Minimum withdrawal is $5.00","err");return}
+  if(amt>parseFloat(u.balance)){toast("Insufficient balance","err");return}
+  var p={id:Date.now(),userId:u.id,userName:u.name,userEmail:u.email,method:mth,account:acc,amount:amt,status:"pending",requestedAt:new Date().toISOString()};
+  var ps=gP();ps.push(p);sP(ps);
+  u.balance=parseFloat(u.balance)-amt;
+  if(!u.paymentHistory)u.paymentHistory=[];
+  u.paymentHistory.push(p);saveU(u);CU=u;
+  uRefresh();this.reset();toast("Withdrawal request submitted!","ok");
+});
+
+// ── ADMIN AUTH ──
+document.getElementById("frm-al").addEventListener("submit",function(e){
+  e.preventDefault();
+  var un=document.getElementById("al-un").value.trim();
+  var pw=document.getElementById("al-pw").value;
+  if(un===AU&&pw===AP){
+    localStorage.setItem("mjp_sid","ADMIN");
+    toast("Welcome, "+AU+"!","ok");
+    setTimeout(initAdmin,700);
+  }else{toast("Invalid credentials!","err")}
+});
+
+function aLogout(){if(confirm("Logout from admin panel?")){localStorage.removeItem("mjp_sid");H("A-app");showAuth("U-login")}}
+function toggleAD(){document.getElementById("a-drop").classList.toggle("hide")}
+document.addEventListener("click",function(e){if(!e.target.closest(".awrap"))document.getElementById("a-drop").classList.add("hide")});
+
+function initAdmin(){
+  H("U-login");H("U-signup");H("A-login");H("U-app");S("A-app");
+  aRefreshAll();
+  setupANav();
+  setInterval(aRefreshAll,4000);
+}
+
+function aRefreshAll(){
+  aLoadStats();aLoadTasks();aLoadUsers();aLoadSubs();aLoadMsgs();aLoadPays();aUpdateBadges();
+}
+
+function aLoadStats(){
+  var u=gU(),t=gT(),s=gS(),p=gP();
+  document.getElementById("a-users").textContent=u.length;
+  document.getElementById("a-tasks").textContent=t.length;
+  document.getElementById("a-pend").textContent=s.filter(function(x){return x.status==="pending"}).length;
+  var paid=p.filter(function(x){return x.status==="completed"}).reduce(function(a,x){return a+parseFloat(x.amount)},0);
+  document.getElementById("a-paid").textContent="$"+paid.toFixed(2);
+  var unrd=0;u.forEach(function(x){if(x.messages)unrd+=x.messages.filter(function(m){return !m.read&&m.sender==="user"}).length});
+  document.getElementById("a-unrd").textContent=unrd;
+}
+
+function aUpdateBadges(){
+  var s=gS(),p=gP(),u=gU();
+  var ps=s.filter(function(x){return x.status==="pending"}).length;
+  aBdg("a-sbdg",ps);
+  var pp=p.filter(function(x){return x.status==="pending"}).length;
+  aBdg("a-paydg",pp);
+  var unrd=0;u.forEach(function(x){if(x.messages)unrd+=x.messages.filter(function(m){return !m.read&&m.sender==="user"}).length});
+  aBdg("a-msgdg",unrd);
+}
+function aBdg(id,n){var el=document.getElementById(id);if(n>0){el.textContent=n;el.classList.remove("hide")}else{el.classList.add("hide")}}
+
+function setupANav(){
+  document.querySelectorAll(".ant").forEach(function(t){
+    t.addEventListener("click",function(){
+      document.querySelectorAll(".ant").forEach(function(x){x.classList.remove("active")});
+      document.querySelectorAll("#A-app .pg").forEach(function(x){x.classList.remove("on")});
+      this.classList.add("active");
+      document.getElementById("pg-"+this.getAttribute("data-apg")).classList.add("on");
+    });
+  });
+}
+
+function aLoadTasks(){
+  var tasks=gT();
+  var tb=document.querySelector("#a-ttbl tbody");tb.innerHTML="";
+  if(!tasks.length){tb.innerHTML="<tr><td colspan=\"6\" class=\"empty\">No tasks yet</td></tr>";return}
+  tasks.forEach(function(t){
+    var tr=document.createElement("tr");
+    tr.innerHTML="<td>"+t.id+"</td><td><strong>"+t.title+"</strong></td><td><span class=\"bdg b-ac\">"+t.category+"</span></td><td><strong style=\"color:var(--green2)\">$"+parseFloat(t.reward).toFixed(2)+"</strong></td><td>"+t.timeEstimate+"</td><td><button class=\"btn btn-danger btn-sm\" onclick=\"delTask("+t.id+")\"><i class=\"fas fa-trash\"></i></button></td>";
+    tb.appendChild(tr);
+  });
+}
+document.getElementById("frm-at").addEventListener("submit",function(e){
+  e.preventDefault();
+  var tasks=gT();
+  tasks.push({id:Date.now(),title:document.getElementById("at-ttl").value,description:document.getElementById("at-dsc").value,category:document.getElementById("at-cat").value,reward:parseFloat(document.getElementById("at-rwd").value),timeEstimate:document.getElementById("at-tm").value});
+  sT(tasks);aLoadTasks();aLoadStats();closeOv("ov-addtask");this.reset();
+  toast("Task added! Users will see it in 3 seconds.","ok");
+});
+function delTask(id){
+  if(!confirm("Delete this task?"))return;
+  sT(gT().filter(function(t){return t.id!==id}));
+  aLoadTasks();aLoadStats();toast("Task deleted.","ok");
+}
+
+function aLoadUsers(){
+  var users=gU();
+  var tb=document.getElementById("a-utbl");tb.innerHTML="";
+  if(!users.length){tb.innerHTML="<tr><td colspan=\"7\" class=\"empty\">No users yet</td></tr>";return}
+  users.forEach(function(u){
+    var tr=document.createElement("tr");
+    tr.innerHTML="<td><strong>"+u.name+"</strong></td><td>"+u.email+"</td><td><strong>$"+parseFloat(u.balance).toFixed(2)+"</strong></td><td>"+(u.completedTasks||0)+"</td><td><span class=\"bdg "+(u.status==="active"?"b-ac":"b-bn")+"\">"+u.status.toUpperCase()+"</span></td><td>"+new Date(u.joinedDate).toLocaleDateString()+"</td><td style=\"display:flex;gap:.3rem;flex-wrap:wrap\"><button class=\"btn btn-blue btn-sm\" onclick=\"viewUser("+u.id+")\"><i class=\"fas fa-eye\"></i></button>"+(u.status==="active"?"<button class=\"btn btn-danger btn-sm\" onclick=\"banU("+u.id+")\"><i class=\"fas fa-ban\"></i></button>":"<button class=\"btn btn-green2 btn-sm\" onclick=\"unbanU("+u.id+")\"><i class=\"fas fa-check\"></i></button>")+"</td>";
+    tb.appendChild(tr);
+  });
+}
+function viewUser(uid){
+  var u=gU().find(function(x){return x.id===uid});if(!u)return;
+  document.getElementById("um-ttl").textContent=u.name;
+  document.getElementById("um-body").innerHTML="<div class=\"infog\"><div class=\"infoi\"><label>Email</label><span>"+u.email+"</span></div><div class=\"infoi\"><label>Balance</label><span style=\"color:var(--green2)\">$"+parseFloat(u.balance).toFixed(2)+"</span></div><div class=\"infoi\"><label>Total Earnings</label><span>$"+parseFloat(u.totalEarnings||0).toFixed(2)+"</span></div><div class=\"infoi\"><label>Tasks Done</label><span>"+(u.completedTasks||0)+"</span></div><div class=\"infoi\"><label>Status</label><span class=\"bdg "+(u.status==="active"?"b-ac":"b-bn")+"\">"+u.status.toUpperCase()+"</span></div><div class=\"infoi\"><label>Joined</label><span>"+new Date(u.joinedDate).toLocaleDateString()+"</span></div></div><div style=\"display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem\"><button class=\"btn btn-blue btn-sm\" onclick=\"closeOv('ov-user');openChatWith("+u.id+")\"><i class=\"fas fa-envelope\"></i> Message</button><button class=\"btn btn-green2 btn-sm\" onclick=\"addBal("+u.id+")\"><i class=\"fas fa-plus\"></i> Add Balance</button>"+(u.status==="active"?"<button class=\"btn btn-danger btn-sm\" onclick=\"banU("+u.id+")\"><i class=\"fas fa-ban\"></i> Ban</button>":"<button class=\"btn btn-green2 btn-sm\" onclick=\"unbanU("+u.id+")\"><i class=\"fas fa-check\"></i> Unban</button>")+"</div>";
+  openOv("ov-user");
+}
+function banU(uid){if(!confirm("Ban this user?"))return;var a=gU();var u=a.find(function(x){return x.id===uid});if(u){u.status="banned";sU(a);aLoadUsers();closeOv("ov-user");toast("User banned.","ok")}}
+function unbanU(uid){var a=gU();var u=a.find(function(x){return x.id===uid});if(u){u.status="active";sU(a);aLoadUsers();closeOv("ov-user");toast("User unbanned.","ok")}}
+function addBal(uid){
+  var amt=parseFloat(prompt("Enter amount to add ($):"));
+  if(!amt||isNaN(amt)||amt<=0)return;
+  var a=gU();var u=a.find(function(x){return x.id===uid});
+  if(u){u.balance=parseFloat(u.balance||0)+amt;u.totalEarnings=parseFloat(u.totalEarnings||0)+amt;sU(a);viewUser(uid);toast("Balance added: $"+amt.toFixed(2),"ok")}
+}
+
+function aLoadSubs(){
+  var subs=gS();
+  var tb=document.getElementById("a-stbl");tb.innerHTML="";
+  if(!subs.length){tb.innerHTML="<tr><td colspan=\"6\" class=\"empty\">No submissions yet</td></tr>";return}
+  subs.slice().reverse().forEach(function(s){
+    var tr=document.createElement("tr");
+    tr.innerHTML="<td>"+s.userName+"</td><td>"+s.taskTitle+"</td><td><strong style=\"color:var(--green2)\">$"+parseFloat(s.taskReward).toFixed(2)+"</strong></td><td>"+new Date(s.submittedAt).toLocaleString()+"</td><td><span class=\"bdg b-"+s.status+"\">"+s.status.toUpperCase()+"</span></td><td><button class=\"btn btn-blue btn-sm\" onclick=\"viewSub('"+s.id+"')\"><i class=\"fas fa-eye\"></i> Review</button></td>";
+    tb.appendChild(tr);
+  });
+}
+function viewSub(sid){
+  var s=gS().find(function(x){return x.id==sid});if(!s)return;
+  document.getElementById("sub-detail").innerHTML="<div class=\"infog\"><div class=\"infoi\"><label>User</label><span>"+s.userName+"</span></div><div class=\"infoi\"><label>Task</label><span>"+s.taskTitle+"</span></div><div class=\"infoi\"><label>Reward</label><span style=\"color:var(--green2)\">$"+parseFloat(s.taskReward).toFixed(2)+"</span></div><div class=\"infoi\"><label>Status</label><span class=\"bdg b-"+s.status+"\">"+s.status.toUpperCase()+"</span></div></div><p style=\"font-weight:700;margin-bottom:.5rem\">Proof:</p><img src=\""+s.proof+"\" style=\"max-width:100%;border-radius:10px;border:1.5px solid var(--border);cursor:pointer\" onclick=\"window.open(this.src,'_blank')\">"+(s.notes?"<div style=\"margin-top:1rem\"><p style=\"font-weight:700;margin-bottom:.4rem\">Notes:</p><p style=\"padding:.8rem;background:var(--bg);border-radius:9px\">"+s.notes+"</p></div>":"")+(s.status==="pending"?"<div style=\"display:flex;gap:.5rem;margin-top:1.1rem\"><button class=\"btn btn-green2\" style=\"flex:1\" onclick=\"appSub('"+s.id+"')\"><i class=\"fas fa-check\"></i> Approve</button><button class=\"btn btn-danger\" style=\"flex:1\" onclick=\"rejSub('"+s.id+"')\"><i class=\"fas fa-times\"></i> Reject</button></div>":"");
+  openOv("ov-sub");
+}
+function appSub(sid){
+  var ss=gS();var s=ss.find(function(x){return x.id==sid});if(!s)return;
+  s.status="approved";sS(ss);
+  var a=gU();var u=a.find(function(x){return x.id===s.userId});
+  if(u){u.pendingTasks=Math.max(0,(u.pendingTasks||0)-1);u.completedTasks=(u.completedTasks||0)+1;u.balance=parseFloat(u.balance||0)+parseFloat(s.taskReward);u.totalEarnings=parseFloat(u.totalEarnings||0)+parseFloat(s.taskReward);u.todayEarnings=parseFloat(u.todayEarnings||0)+parseFloat(s.taskReward);sU(a)}
+  closeOv("ov-sub");aLoadSubs();aLoadStats();aUpdateBadges();
+  toast("Approved! $"+parseFloat(s.taskReward).toFixed(2)+" added to user.","ok");
+}
+function rejSub(sid){
+  var ss=gS();var s=ss.find(function(x){return x.id==sid});if(!s)return;
+  s.status="rejected";sS(ss);
+  var a=gU();var u=a.find(function(x){return x.id===s.userId});
+  if(u){u.pendingTasks=Math.max(0,(u.pendingTasks||0)-1);sU(a)}
+  closeOv("ov-sub");aLoadSubs();aLoadStats();aUpdateBadges();toast("Submission rejected.","ok");
+}
+
+function aLoadMsgs(){
+  var users=gU().filter(function(u){return u.messages&&u.messages.length>0});
+  var tb=document.getElementById("a-mtbl");tb.innerHTML="";
+  if(!users.length){tb.innerHTML="<tr><td colspan=\"5\" class=\"empty\">No messages yet</td></tr>";return}
+  users.forEach(function(u){
+    var last=u.messages[u.messages.length-1];
+    var unrd=u.messages.filter(function(m){return !m.read&&m.sender==="user"}).length;
+    var tr=document.createElement("tr");
+    tr.innerHTML="<td><strong>"+u.name+"</strong></td><td>"+(last.text?(last.text.length>42?last.text.substring(0,42)+"…":last.text):"[Image]")+"</td><td>"+new Date(last.timestamp).toLocaleString()+"</td><td>"+(unrd>0?"<span class=\"bdg b-p\">"+unrd+" new</span>":"-")+"</td><td><button class=\"btn btn-blue btn-sm\" onclick=\"openChatWith("+u.id+")\"><i class=\"fas fa-comments\"></i> Open</button></td>";
+    tb.appendChild(tr);
+  });
+}
+function openChatWith(uid){
+  var a=gU();var u=a.find(function(x){return x.id===uid});if(!u)return;
+  curChatU=u;
+  document.getElementById("chat-ttl").textContent="Chat – "+u.name;
+  document.getElementById("chat-uinfo").innerHTML="<div class=\"infoi\"><label>Email</label><span>"+u.email+"</span></div><div class=\"infoi\"><label>Balance</label><span style=\"color:var(--green2)\">$"+parseFloat(u.balance).toFixed(2)+"</span></div><div class=\"infoi\"><label>Status</label><span class=\"bdg "+(u.status==="active"?"b-ac":"b-bn")+"\">"+u.status.toUpperCase()+"</span></div>";
+  renderAChatMsgs();openOv("ov-chat");
+  u.messages.forEach(function(m){if(m.sender==="user")m.read=true});
+  var idx=a.findIndex(function(x){return x.id===uid});a[idx]=u;sU(a);
+  aLoadStats();aLoadMsgs();aUpdateBadges();
+}
+function renderAChatMsgs(){
+  var box=document.getElementById("a-chmsgs");box.innerHTML="";
+  if(!curChatU.messages||!curChatU.messages.length){box.innerHTML="<div class=\"empty\">No messages</div>";return}
+  curChatU.messages.forEach(function(m){
+    var d=document.createElement("div");d.className="amsg "+(m.sender==="user"?"um":"am");
+    var body="<div class=\"ambody\">"+(m.text||"");
+    if(m.image)body+="<img src=\""+m.image+"\" class=\"mimg\" onclick=\"window.open(this.src,'_blank')\">";
+    body+="<div class=\"amtime\">"+new Date(m.timestamp).toLocaleString()+"</div></div>";
+    d.innerHTML="<div class=\"amav\"><i class=\"fas fa-"+(m.sender==="user"?"user":"shield-alt")+"\"></i></div>"+body;
+    box.appendChild(d);
+  });
+  box.scrollTop=box.scrollHeight;
+}
+function aSendMsg(){
+  var txt=document.getElementById("a-msgtxt").value.trim();
+  if(!txt){toast("Enter a message","err");return}
+  var a=gU();var idx=a.findIndex(function(x){return x.id===curChatU.id});if(idx<0)return;
+  if(!a[idx].messages)a[idx].messages=[];
+  a[idx].messages.push({id:Date.now(),sender:"admin",text:txt,timestamp:new Date().toISOString(),read:false});
+  sU(a);curChatU=a[idx];
+  document.getElementById("a-msgtxt").value="";
+  renderAChatMsgs();aLoadMsgs();toast("Message sent!","ok");
+}
+
+function aLoadPays(){
+  var pays=gP();
+  var tb=document.getElementById("a-ptbl");tb.innerHTML="";
+  if(!pays.length){tb.innerHTML="<tr><td colspan=\"7\" class=\"empty\">No payment requests</td></tr>";return}
+  pays.slice().reverse().forEach(function(p){
+    var tr=document.createElement("tr");
+    tr.innerHTML="<td><strong>"+p.userName+"</strong></td><td>"+p.method.toUpperCase()+"</td><td style=\"font-size:.8rem;max-width:130px;overflow:hidden;text-overflow:ellipsis\">"+p.account+"</td><td><strong style=\"color:var(--green2)\">$"+parseFloat(p.amount).toFixed(2)+"</strong></td><td>"+new Date(p.requestedAt).toLocaleString()+"</td><td><span class=\"bdg b-"+p.status+"\">"+p.status.toUpperCase()+"</span></td><td style=\"display:flex;gap:.3rem\">"+(p.status==="pending"?"<button class=\"btn btn-green2 btn-sm\" onclick=\"appPay('"+p.id+"')\"><i class=\"fas fa-check\"></i></button><button class=\"btn btn-danger btn-sm\" onclick=\"rejPay('"+p.id+"')\"><i class=\"fas fa-times\"></i></button>":"-")+"</td>";
+    tb.appendChild(tr);
+  });
+}
+function appPay(pid){
+  if(!confirm("Approve this payment?"))return;
+  var ps=gP();var p=ps.find(function(x){return x.id==pid});if(p)p.status="completed";sP(ps);
+  aLoadPays();aLoadStats();aUpdateBadges();toast("Payment approved!","ok");
+}
+function rejPay(pid){
+  if(!confirm("Reject and refund?"))return;
+  var ps=gP();var p=ps.find(function(x){return x.id==pid});if(!p)return;
+  p.status="rejected";sP(ps);
+  var a=gU();var u=a.find(function(x){return x.id===p.userId});
+  if(u){u.balance=parseFloat(u.balance||0)+parseFloat(p.amount);sU(a)}
+  aLoadPays();aLoadStats();aUpdateBadges();toast("Rejected, amount refunded.","ok");
+}
+</script>
+
+</body>
+</html>
